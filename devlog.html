@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>開發日誌</title>
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmRdNSrWzHdof3gPpgz_dEz9etFKZHcYNOA&s" type="image/x-icon">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        #current-time {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            color: white;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        /* 開發日誌條目樣式 */
+        .devlog-entry {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .devlog-entry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .devlog-date {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .devlog-title {
+            color: #343a40;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* 項目類型標籤 */
+        .project-tag {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tag-web {
+            background-color: #e1f5fe;
+            color: #0288d1;
+        }
+
+        .tag-game {
+            background-color: #f9fbe7;
+            color: #9e9d24;
+        }
+
+        .tag-data {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        /* 代碼塊樣式 */
+        .code-block {
+            background-color: #282c34;
+            color: #abb2bf;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        /* 問題和解決方案樣式 */
+        .problem {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .solution {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 標籤樣式 */
+        .tech-tag {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        /* 搜索和過濾區域 */
+        .filter-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* 按鈕樣式 */
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 25px;
+            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 30px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 123, 255, 0.4);
+        }
+
+        /* 頁腳區塊樣式 */
+        footer {
+            background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* 導航欄樣式 */
+        .nav-btn {
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            margin: 0 5px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顯示當前時間的元素 -->
+    <div id="current-time" class="animate__animated animate__fadeIn"></div>
+
+<!-- 頁首區塊 -->
+<header class="bg-dark text-white py-3">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- 將 h1 包裹在 a 標籤內，指向首頁 -->
+            <a href="index.html" class="text-white text-decoration-none">
+                <h1 class="display-6">吳松濂的作品集</h1>
+            </a>
+
+            <nav class="d-flex align-items-center">
+                <!-- 導航連結 -->
+                <a href="index.html" class="btn btn-outline-light me-2">首頁</a>
+                <a href="about.html" class="btn btn-outline-light me-2">關於我</a>
+                <a href="skills.html" class="btn btn-outline-light me-2">技能專長</a>
+                <a href="portfolio.html" class="btn btn-outline-light me-2">作品集詳情</a>
+                <a href="devlog.html" class="btn btn-outline-light me-3">開發日誌</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <!-- 主要內容區 -->
+    <main class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 animate__animated animate__fadeIn">項目開發日誌</h2>
+            <p class="text-center mb-5 animate__animated animate__fadeIn">記錄我在各個項目開發過程中的經驗、挑戰和解決方案</p>
+
+
+
+            <!-- 開發日誌條目 -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- 日誌條目 1 -->
+                    <div class="devlog-entry animate__animated animate__fadeIn">
+                        <span class="project-tag tag-game">遊戲設計</span>
+                        <div class="devlog-date">2024年3月15日</div>
+                        <h4 class="devlog-title">記憶卡牌遊戲優化歷程</h4>
+                        <div class="mb-3">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">遊戲邏輯</span>
+                        </div>
+                        <p>在開發記憶卡牌遊戲過程中，遇到了卡牌翻轉動畫不流暢以及遊戲邏輯出現問題的挑戰。這裡記錄了我如何一步步優化這個項目。</p>
+
+                        <h5 class="mt-4 mb-3">挑戰一：卡牌翻轉動畫</h5>
+                        <div class="problem">
+                            <p><strong>問題：</strong>最初實現卡牌翻轉效果時，動畫顯得生硬且缺乏立體感，特別是在不同尺寸的屏幕上表現不一致。</p>
+                        </div>
+
+                        <div class="solution">
+                            <p><strong>解決方案：</strong>使用CSS 3D變換屬性改進翻轉效果，並加入過渡時間控制使動畫更自然。</p>
+                        </div>
+
+                        <div class="code-block">
+.card {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.card-inner {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    backface-visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+</div>
+
+                        <h5 class="mt-4 mb-3">挑戰二：遊戲邏輯問題</h5>
+                        <div class="problem">
+                            <p><strong>問題：</strong>當玩家快速點擊多張卡牌時，遊戲邏輯會出錯，導致有時能夠翻開三張以上的卡牌，或者配對成功的卡牌會錯誤地翻回去。</p>
+                        </div>
+
+                        <div class="solution">
+                            <p><strong>解決方案：</strong>實現一個狀態鎖定機制，在卡牌判定過程中禁止玩家點擊其他卡牌，確保遊戲流程的穩定性。</p>
+                        </div>
+
+                        <div class="code-block">
+let isProcessing = false;
+
+function handleCardClick(card) {
+    // 如果正在處理配對判定或卡片已經翻開，則忽略點擊
+    if (isProcessing || card.classList.contains('flipped')) {
+        return;
+    }
+    
+    // 翻開卡片
+    card.classList.add('flipped');
+    flippedCards.push(card);
+    
+    // 當翻開第二張卡片時，進行配對判定
+    if (flippedCards.length === 2) {
+        isProcessing = true; // 鎖定狀態，防止用戶點擊
+        
+        setTimeout(() => {
+            checkForMatch();
+            isProcessing = false; // 解除鎖定
+        }, 700);
+    }
+}
+</div>
+
+                        <h5 class="mt-4 mb-3">學習收穫</h5>
+                        <p>這個項目讓我學會了如何優化前端動畫效果，以及如何處理用戶交互中的狀態管理。特別是理解了在遊戲開發中，狀態控制的重要性，避免用戶操作導致的邏輯錯誤。</p>
+                        
+                        <p>後續計劃加入難度選擇功能，讓玩家可以選擇不同大小的卡牌網格，增加遊戲的可玩性和挑戰性。</p>
+                    </div>
+
+                    <!-- 日誌條目 2 -->
+                    <div class="devlog-entry animate__animated animate__fadeIn">
+                        <span class="project-tag tag-web">網頁開發</span>
+                        <div class="devlog-date">2024年2月20日</div>
+                        <h4 class="devlog-title">個人作品集網站的響應式設計實現</h4>
+                        <div class="mb-3">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Bootstrap 5</span>
+                            <span class="tech-tag">響應式設計</span>
+                        </div>
+                        <p>構建個人作品集網站時，我想確保網站在所有設備上都能有良好的顯示效果。這篇日誌記錄了我實現響應式設計的過程。</p>
+
+                        <h5 class="mt-4 mb-3">響應式設計的挑戰</h5>
+                        <div class="problem">
+                            <p><strong>問題：</strong>最初設計的頁面在手機上顯示時，導航欄過於擁擠，內容排版混亂，特別是作品展示卡片的佈局不合理。</p>
+                        </div>
+
+                        <div class="solution">
+                            <p><strong>解決方案：</strong>利用Bootstrap 5的網格系統和媒體查詢來調整不同屏幕尺寸下的佈局。針對小屏幕設備，將導航欄改為漢堡菜單，並調整卡片為單列顯示。</p>
+                        </div>
+
+                        <h5 class="mt-4 mb-3">圖片優化</h5>
+                        <div class="problem">
+                            <p><strong>問題：</strong>作品集中的大量圖片導致頁面加載緩慢，特別是在移動網絡下體驗較差。</p>
+                        </div>
+
+                        <div class="solution">
+                            <p><strong>解決方案：</strong>壓縮圖片並設置合適的尺寸，同時使用延遲加載技術減少初始加載時間。</p>
+                        </div>
+
+
+
+<script>
+    // 簡單的延遲加載實現
+    document.addEventListener("DOMContentLoaded", function() {
+        const lazyImages = document.querySelectorAll(".lazy-load");
+        
+        if ("IntersectionObserver" in window) {
+            let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        let lazyImage = entry.target;
+                        lazyImage.src = lazyImage.dataset.src;
+                        lazyImage.classList.remove("lazy-load");
+                        lazyImageObserver.unobserve(lazyImage);
+                    }
+                });
+            });
+            
+            lazyImages.forEach(function(lazyImage) {
+                lazyImageObserver.observe(lazyImage);
+            });
+        }
+    });
+</script>
+</div>
+
+                        <h5 class="mt-4 mb-3">學習收穫</h5>
+                        <p>這個項目讓我深入理解了響應式設計的核心原則，以及使用Bootstrap框架提高開發效率的方法。我學會了如何從用戶體驗角度思考設計，確保網站在不同設備上都能提供良好的瀏覽體驗。</p>
+                        
+                        <p>後續計劃引入更多互動元素，如滾動動畫和頁面轉場效果，來增強整體網站的現代感和專業度。</p>
+                    </div>
+
+                    <!-- 日誌條目 3 -->
+                    <div class="devlog-entry animate__animated animate__fadeIn">
+                        <span class="project-tag tag-data">數據分析</span>
+                        <div class="devlog-date">2024年1月10日</div>
+                        <h4 class="devlog-title">使用OpenData API開發天氣預報應用</h4>
+                        <div class="mb-3">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">API</span>
+                            <span class="tech-tag">數據視覺化</span>
+                            <span class="tech-tag">Chart.js</span>
+                        </div>
+                        <p>這個項目旨在使用政府開放資料(OpenData)的天氣預報API，開發一個直觀的天氣預報應用。這裡記錄了我在處理API數據和實現視覺化過程中遇到的挑戰。</p>
+
+                        <h5 class="mt-4 mb-3">API數據處理挑戰</h5>
+                        <div class="problem">
+                            <p><strong>問題：</strong>從氣象局獲取的API數據格式複雜，包含大量不必要的信息，且數據格式不一致，需要進行大量預處理。</p>
+                        </div>
+
+                        <div class="solution">
+                            <p><strong>解決方案：</strong>建立數據轉換函數，將API返回的原始數據轉換為應用所需的格式，並處理缺失值和異常情況。</p>
+                        </div>
+
+                        <div class="code-block">
+function processWeatherData(rawData) {
+    // 檢查數據是否存在
+    if (!rawData || !rawData.records || !rawData.records.locations) {
+        return { error: "數據格式錯誤" };
+    }
+    
+    // 提取所需數據
+    const locations = rawData.records.locations[0].location;
+    const processedData = locations.map(location => {
+        // 獲取最新的天氣預報
+        const latestWeather = location.weatherElement.reduce((acc, element) => {
+            // 根據不同的氣象元素類型處理數據
+            switch(element.elementName) {
+                case "Wx": // 天氣現象
+                    acc.weather = element.time[0].elementValue[0].value;
+                    acc.weatherCode = element.time[0].elementValue[1].value;
+                    break;
+                case "PoP": // 降雨機率
+                    acc.rainChance = element.time[0].elementValue[0].value;
+                    break;
+                case "MinT": // 最低溫度
+                    acc.minTemp = element.time[0].elementValue[0].value;
+                    break;
+                case "MaxT": // 最高溫度
+                    acc.maxTemp = element.time[0].elementValue[0].value;
+                    break;
+                // 其他氣象元素處理...
+            }
+            return acc;
+        }, {});
+        
+        return {
+            locationName: location.locationName,
+            ...latestWeather
+        };
+    });
+    
+    return processedData;
+}
+</div>
+
+                        <h5 class="mt-4 mb-3">數據視覺化實現</h5>
+                        <div class="problem">
+                            <p><strong>問題：</strong>需要將溫度、降雨機率等數據以直觀的方式呈現，同時保持良好的用戶體驗。</p>
+                        </div>
+
+                        <div class="solution">
+                            <p><strong>解決方案：</strong>使用Chart.js庫創建互動式圖表，展示未來一週的天氣趨勢，並使用適當的顏色和圖標增強視覺效果。</p>
+                        </div>
+
+                        <h5 class="mt-4 mb-3">學習收穫</h5>
+                        <p>這個項目讓我學習了如何處理和轉換複雜的API數據，以及如何使用JavaScript庫進行數據視覺化。我理解了數據預處理的重要性，以及如何設計直觀的用戶界面來展示複雜信息。</p>
+                        
+                        <p>未來我計劃加入地理定位功能，讓應用能夠自動顯示用戶所在地的天氣預報，提高用戶體驗。</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!-- 頁腳區塊 -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-2">聯絡我：<a href="mailto:41241211@nfu.edu.tw" class="text-white">41241211@nfu.edu.tw</a></p>
+            <div class="d-flex justify-content-center social-links mb-3">
+                <!-- Facebook Icon -->
+                <a href="https://www.facebook.com" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-facebook" style="font-size: 1.5rem;"></i>
+                </a>
+                <!-- LINE Icon -->
+                <a href="https://line.me" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-line" style="font-size: 1.5rem;"></i>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="https://www.instagram.com" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-instagram" style="font-size: 1.5rem;"></i>
+                </a>
+                <!-- GitHub Icon -->
+                <a href="https://github.com" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+                </a>
+            </div>
+            <p class="mt-2">© 2024 吳松濂的作品集 | 虎尾科技大學資訊管理系</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+
+    <script>
+        // 每秒更新時間
+        function updateTime() {
+            document.getElementById('current-time').textContent = moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+        setInterval(updateTime, 1000); // 每秒更新一次
+        updateTime(); // 初始化時間
+
+        // 過濾按鈕功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-section .btn-outline-primary');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按鈕的 active 類
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // 為當前點擊的按鈕添加 active 類
+                    this.classList.add('active');
+                    
+                    // 這裡可以添加實際的過濾邏輯
+                    // ...
+                });
+            });
+        });
+    </script>
+</body>
+</html>

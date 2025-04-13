@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的作品集詳情</title>
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUmRdNSrWzHdof3gPpgz_dEz9etFKZHcYNOA&s"
+        type="image/x-icon">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        #current-time {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        /* 作品卡片樣式 */
+        .portfolio-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .portfolio-img {
+            height: 250px;
+            object-fit: cover;
+        }
+
+        /* 標籤樣式 */
+        .tech-tag {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        html,
+        body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        #current-time {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            color: white;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        /* 關於我區塊樣式 */
+        .about-section {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 30px 0;
+            padding: 30px;
+        }
+
+        .profile-img {
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* 小標題樣式 */
+        h4 {
+            color: #007bff;
+            margin-top: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        /* 技能列表樣式 */
+        .skill-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .skill-list li {
+            padding: 8px 0;
+            margin-bottom: 8px;
+            padding-left: 30px;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .skill-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .skill-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* 按鈕樣式 */
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 25px;
+            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 30px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 123, 255, 0.4);
+        }
+
+        /* 動畫效果 */
+        .fadeIn {
+            animation: fadeIn 1s;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 1s;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 1s;
+        }
+
+        /* 頁腳區塊樣式 */
+        footer {
+            background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* 導航欄樣式 */
+        .nav-btn {
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            margin: 0 5px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        /* 自我介紹文字樣式 */
+        .about-text {
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* 興趣區塊樣式 */
+        .interest-box {
+            background-color: #f1f8ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- 顯示當前時間的元素，放在 header 之外 -->
+    <div id="current-time" class="text-white"></div>
+
+<!-- 頁首區塊 -->
+<header class="bg-dark text-white py-3">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- 將 h1 包裹在 a 標籤內，指向首頁 -->
+            <a href="index.html" class="text-white text-decoration-none">
+                <h1 class="display-6">吳松濂的作品集</h1>
+            </a>
+
+            <nav class="d-flex align-items-center">
+                <!-- 導航連結 -->
+                <a href="index.html" class="btn btn-outline-light me-2">首頁</a>
+                <a href="about.html" class="btn btn-outline-light me-2">關於我</a>
+                <a href="skills.html" class="btn btn-outline-light me-2">技能專長</a>
+                <a href="portfolio.html" class="btn btn-outline-light me-2">作品集詳情</a>
+                <a href="devlog.html" class="btn btn-outline-light me-3">開發日誌</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+    <!-- 作品集詳情區塊 -->
+    <main>
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">作品集詳情</h2>
+
+                <!-- 分類選擇器 -->
+                <div class="row mb-5">
+                    <div class="col-md-6 mx-auto">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-outline-primary me-2 active" data-filter="all">全部</button>
+                            <button class="btn btn-outline-primary me-2" data-filter="web">網頁開發</button>
+                            <button class="btn btn-outline-primary me-2" data-filter="game">遊戲設計</button>
+                            <button class="btn btn-outline-primary" data-filter="other">其他專案</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- 作品 1 - 剪刀石頭布 -->
+                    <div class="col-md-6 col-lg-4 portfolio-item" data-category="game">
+                        <div class="card portfolio-card h-100">
+                            <img src="carde image/剪刀.png" class="card-img-top portfolio-img" alt="剪刀石頭布">
+                            <div class="card-body">
+                                <h5 class="card-title">剪刀石頭布</h5>
+                                <div class="mb-2">
+                                    <span class="tech-tag">HTML</span>
+                                    <span class="tech-tag">CSS</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                </div>
+                                <p class="card-text">這是一個互動式的猜拳遊戲網頁，玩家可以選擇出剪刀、石頭或布，與電腦對戰。遊戲會即時顯示輸贏結果，並記錄戰績。</p>
+                                <p><strong>開發時間:</strong> 2023年9月</p>
+                                <p><strong>功能特點:</strong></p>
+                                <ul>
+                                    <li>直觀的用戶界面</li>
+                                    <li>實時分數統計</li>
+                                    <li>動畫效果增強體驗</li>
+                                </ul>
+                                <div class="text-center mt-3">
+                                    <a href="https://yalehappy.github.io/0918-41241211/" target="_blank"
+                                        class="btn btn-primary">查看作品</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作品 2 - 卡牌記憶大考驗 -->
+                    <div class="col-md-6 col-lg-4 portfolio-item" data-category="game">
+                        <div class="card portfolio-card h-100">
+                            <img src="carde image/card.png" class="card-img-top portfolio-img" alt="卡牌記憶大考驗">
+                            <div class="card-body">
+                                <h5 class="card-title">卡牌記憶大考驗</h5>
+                                <div class="mb-2">
+                                    <span class="tech-tag">HTML</span>
+                                    <span class="tech-tag">CSS</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                </div>
+                                <p class="card-text">這是一個可以選擇不同難度級別(2x2、4x4、6x6)的卡牌記憶配對遊戲。玩家需要找出所有相同的卡牌對，測試記憶力和反應速度。</p>
+                                <p><strong>開發時間:</strong> 2023年10月</p>
+                                <p><strong>功能特點:</strong></p>
+                                <ul>
+                                    <li>多難度級別選擇</li>
+                                    <li>計時功能</li>
+                                    <li>翻牌動畫效果</li>
+                                    <li>自適應界面設計</li>
+                                </ul>
+                                <div class="text-center mt-3">
+                                    <a href="https://yalehappy.github.io/1009-41241211/" target="_blank"
+                                        class="btn btn-primary">查看作品</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作品 3 - JavaScript套件應用 -->
+                    <div class="col-md-6 col-lg-4 portfolio-item" data-category="web">
+                        <div class="card portfolio-card h-100">
+                            <img src="carde image/js.png" class="card-img-top portfolio-img" alt="JavaScript套件應用">
+                            <div class="card-body">
+                                <h5 class="card-title">JavaScript套件應用</h5>
+                                <div class="mb-2">
+                                    <span class="tech-tag">HTML</span>
+                                    <span class="tech-tag">CSS</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">jQuery</span>
+                                </div>
+                                <p class="card-text">這個專案展示了各種流行JavaScript套件的應用，包括動畫效果、資料視覺化和互動元素等，呈現現代網頁開發的多樣性。</p>
+                                <p><strong>開發時間:</strong> 2023年10月</p>
+                                <p><strong>使用的套件:</strong></p>
+                                <ul>
+                                    <li>Chart.js - 資料視覺化</li>
+                                    <li>Animate.css - 動畫效果</li>
+                                    <li>Moment.js - 時間處理</li>
+                                    <li>Lodash - 工具函數庫</li>
+                                </ul>
+                                <div class="text-center mt-3">
+                                    <a href="https://yalehappy.github.io/1030-41241211/" target="_blank"
+                                        class="btn btn-primary">查看作品</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作品 4 - 訂餐表單 (已修改) -->
+                    <div class="col-md-6 col-lg-4 portfolio-item" data-category="web">
+                        <div class="card portfolio-card h-100">
+                            <img src="https://www.ipos.com.tw/ezfiles/11/1011/img/10665/lineorder-02.jpg"
+                                class="card-img-top portfolio-img" alt="訂餐表單">
+                            <div class="card-body">
+                                <h5 class="card-title">訂餐表單</h5>
+                                <div class="mb-2">
+                                    <span class="tech-tag">HTML5</span>
+                                    <span class="tech-tag">CSS3</span>
+                                    <span class="tech-tag">Bootstrap 5</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                </div>
+                                <p class="card-text">這是一個互動式的線上訂餐系統，具有菜單瀏覽、餐點選擇、購物車功能以及結帳流程。整合了訂單確認和客戶資料驗證功能。</p>
+                                <p><strong>開發時間:</strong> 2024年3月</p>
+                                <p><strong>功能特點:</strong></p>
+                                <ul>
+                                    <li>響應式菜單設計</li>
+                                    <li>直觀菜單</li>
+                                    <li>訂單二次確認</li>
+                                </ul>
+                                <div class="text-center mt-3">
+                                    <a href="https://yalehappy.github.io/foodfrom-41241211/" target="_blank"
+                                        class="btn btn-primary">查看作品</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 作品 5 - 天氣預報API OpenData (已修改) -->
+                    <div class="col-md-6 col-lg-4 portfolio-item" data-category="other">
+                        <div class="card portfolio-card h-100">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo5N0Q8C7y7ZcjfCvEVyay2Xv-nAOxeKD-Rg&s"
+                                class="card-img-top portfolio-img" alt="天氣預報API OpenData">
+                            <div class="card-body">
+                                <h5 class="card-title">天氣預報API OpenData</h5>
+                                <div class="mb-2">
+                                    <span class="tech-tag">HTML</span>
+                                    <span class="tech-tag">CSS</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">API</span>
+                                </div>
+                                <p class="card-text">
+                                    這個專案利用政府開放資料(OpenData)的天氣預報API，開發了一個可視化的天氣預報網頁應用。可查詢全台各地的即時天氣資訊和未來預報。</p>
+                                <p><strong>開發時間:</strong> 2024年2月</p>
+                                <p><strong>功能特點:</strong></p>
+                                <ul>
+                                    <li>整合中央氣象署OpenData API</li>
+                                    <li>互動式地圖選擇地區</li>
+                                    <li>即時天氣與未來預報顯示</li>
+                                    <li>溫度、濕度和降雨機率等詳細資訊</li>
+                                </ul>
+                                <div class="text-center mt-3">
+                                    <a href="https://yalehappy.github.io/weather-41241211/" target="_blank"
+                                        class="btn btn-primary">查看作品</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- 頁腳區塊 -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-2">聯絡我：<a href="mailto:41241211@nfu.edu.tw" class="text-white">41241211@nfu.edu.tw</a></p>
+            <div class="d-flex justify-content-center social-links mb-3">
+                <!-- Facebook Icon -->
+                <a href="https://www.facebook.com" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-facebook" style="font-size: 1.5rem;"></i>
+                </a>
+                <!-- LINE Icon -->
+                <a href="https://line.me" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-line" style="font-size: 1.5rem;"></i>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="https://www.instagram.com" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-instagram" style="font-size: 1.5rem;"></i>
+                </a>
+                <!-- GitHub Icon -->
+                <a href="https://github.com" target="_blank" class="text-white mx-2">
+                    <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+                </a>
+            </div>
+            <p class="mt-2">© 2024 吳松濂的作品集 | 虎尾科技大學資訊管理系</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script>
+        // 每秒更新時間
+        function updateTime() {
+            document.getElementById('current-time').textContent = moment().format('YYYY-MM-DD HH:mm:ss');
+        }
+        setInterval(updateTime, 1000); // 每秒更新一次
+        updateTime(); // 初始化時間
+
+        // 作品集過濾功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterButtons = document.querySelectorAll('[data-filter]');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const filterValue = this.getAttribute('data-filter');
+
+                    // 更新按鈕狀態
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // 過濾作品
+                    portfolioItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <!-- Bootstrap 5.3.3 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
